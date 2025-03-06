@@ -2,16 +2,21 @@ package com.techie.microservices.product_service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.MongoDBContainer;
 import org.hamcrest.Matchers;
 import io.restassured.RestAssured;
 
 @Import(TestcontainersConfiguration.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+@AutoConfigureMockMvc
 class ProductServiceApplicationTests {
 
     @ServiceConnection
@@ -44,7 +49,7 @@ class ProductServiceApplicationTests {
                 .contentType("application/json")
                 .body(requestBody)
                 .when()
-                .post("/api/products")
+                .post("/api/product")
                 .then()
                 .statusCode(201)
                 .body("id", Matchers.notNullValue())
